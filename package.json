@@ -9,7 +9,7 @@
     "postinstall": "mkdir -p mocks && tsc",
     "start": "node dist/index.js",
     "upload-db": "node dist/services/uploadToDB.js",
-    "run-bg": "forever start ./dist/index.js"
+    "background": "forever start ./dist/index.js"
   },
   "author": "",
   "license": "ISC",
