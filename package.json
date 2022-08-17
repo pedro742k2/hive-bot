@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "ts-node-dev --exit-child src/index.ts",
     "tsc": "tsc",
-    "postinstall": "mkdir mocks && tsc",
+    "postinstall": "mkdir -p mocks && tsc",
     "start": "node dist/index.js",
     "upload-db": "node dist/services/uploadToDB.js"
   },
