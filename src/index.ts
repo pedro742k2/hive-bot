@@ -18,7 +18,9 @@ dotenv.config();
 
 // Listen to STDIN flow
 readline.emitKeypressEvents(process.stdin);
-process.stdin.setRawMode(true);
+if (process.stdin.isTTY) {
+  process.stdin.setRawMode(true);
+}
 
 // Keyboard event listener
 process.stdin.on("keypress", (str, key) => {

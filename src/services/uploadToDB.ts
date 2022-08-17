@@ -4,16 +4,23 @@ import { SERVER_URL } from "./api";
 
 export const handleUploadToDb = (hiveId: number | void) => {
   const HIVE_ID =
-    process.argv
-      .filter((arg) => (arg.split("=")[0] === "hive" ? arg : null))[0]
-      ?.split("=")[1] ||
+    Number(
+      process.argv
+        .filter((arg) => (arg.split("=")[0] === "hive" ? arg : null))[0]
+        ?.split("=")[1]
+    ) ||
     hiveId ||
-    "101";
+    101;
 
   // Mock file location
   const mockDir = __dirname + `/../../mocks/hive_${HIVE_ID}.sql`;
 
-  const mocks = fs.readFileSync(mockDir, "utf8");
+  let mocks: string;
+  try {
+    mocks = fs.readFileSync(mockDir, "utf8");
+  } catch (error) {
+    return console.error(`❌ ERROR READING MOCKS.\nError: ${error}`);
+  }
 
   try {
     return axios
