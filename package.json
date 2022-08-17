@@ -7,13 +7,15 @@
     "dev": "ts-node-dev --exit-child src/index.ts",
     "tsc": "tsc",
     "postinstall": "tsc",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "upload-db": "node dist/services/uploadToDB.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.27.2",
-    "dotenv": "^16.0.1"
+    "dotenv": "^16.0.1",
+    "forever": "^4.0.3"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",

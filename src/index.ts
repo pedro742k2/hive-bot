@@ -4,6 +4,14 @@ import dotenv from "dotenv";
 import readline from "readline";
 // Text colors
 import { FgGreen, FgRed, FgYellow, FgCyan, Reset } from "./colors";
+import { handleUploadToDb } from "./services/uploadToDB";
+
+const HIVE_ID =
+  Number(
+    process.argv
+      .filter((arg) => (arg.split("=")[0] === "hive" ? arg : null))[0]
+      ?.split("=")[1]
+  ) || 101;
 
 // Get environment variables from the ".env" file
 dotenv.config();
@@ -34,12 +42,11 @@ const { API_KEY, LAT, LON, WRITE_DELAY_MINUTES } = process.env;
 const REQ = `https://api.openweathermap.org/data/2.5/weather?units=${"metric"}&lat=${LAT}&lon=${LON}&appid=${API_KEY}`;
 
 let lastWrite = 0;
-const hive_id = 101;
 let battery = 100;
 let isCharging = false;
 
 // Mock file location
-const mockDir = __dirname + "/../Mocks/mock.sql";
+const mockDir = __dirname + `/../mocks/hive_${HIVE_ID}.sql`;
 
 const request = async () => {
   const res = await axios.get(REQ);
@@ -68,11 +75,13 @@ const request = async () => {
 
   const sqlQuery = `INSERT INTO hive_readings 
       (hive_id, weight, internal_temperature, external_temperature, humidity, battery, solar_panel_voltage, reading_date)
-      VALUES (${hive_id}, ${weight}, ${internal_temperature}, ${external_temperature}, ${humidity}, ${battery}, ${solar_panel_voltage}, '${date}');
+      VALUES (${HIVE_ID}, ${weight}, ${internal_temperature}, ${external_temperature}, ${humidity}, ${battery}, ${solar_panel_voltage}, '${date}');
       \n`;
 
   try {
     fs.appendFileSync(mockDir, sqlQuery);
+
+    handleUploadToDb(HIVE_ID);
 
     return `${FgGreen}✅ Success (write number #${writeCount} at ${new Date().toLocaleString()})${Reset}`;
   } catch (error) {
