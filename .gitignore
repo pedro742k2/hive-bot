@@ -5,7 +5,7 @@ node_modules/
 dist/
 
 # Mock files
-mocks/**
+mocks/*
 
 # Environment variables file
 .env
