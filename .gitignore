@@ -5,7 +5,7 @@ node_modules/
 dist/
 
 # Mock files
-mocks/*
+mocks/*.sql
 
 # Environment variables file
 .env
