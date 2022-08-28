@@ -25,7 +25,9 @@ export const handleUploadToDb = (hiveId: number | void) => {
   try {
     return axios
       .post(`${SERVER_URL}/upload-mock-to-db`, { mocks_query: mocks })
-      .then(() => console.log("✅ UPLOADED SUCCESSFULLY."))
+      .then(() =>
+        fs.truncate(mockDir, 0, () => console.log("✅ UPLOADED SUCCESSFULLY."))
+      )
       .catch((error) =>
         console.error(`❌ ERROR UPLOADING MOCKS TO DATABASE.\nError: ${error}`)
       );
