@@ -4,7 +4,6 @@ import dotenv from "dotenv";
 import readline from "readline";
 // Text colors
 import { FgGreen, FgRed, FgYellow, FgCyan, Reset } from "./colors";
-import { handleUploadToDb } from "./services/uploadToDB";
 
 const HIVE_ID =
   Number(
@@ -82,8 +81,6 @@ const request = async () => {
 
   try {
     fs.appendFileSync(mockDir, sqlQuery);
-
-    handleUploadToDb(HIVE_ID);
 
     return `${FgGreen}✅ Success (write number #${writeCount} at ${new Date().toLocaleString()})${Reset}`;
   } catch (error) {
